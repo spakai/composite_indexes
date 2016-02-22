@@ -16,6 +16,7 @@ to do this we need two indexes, one for Calling Number -> Rate , one for Called 
 and run a set union operation on them.
 
 
-
+#Code design
+The two lookups are independent and only when both results arrive , we do a set union operation. 
 
 
