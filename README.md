@@ -3,9 +3,10 @@ While working on index_search, the book that provided theory on which I wrote my
 
 Let 's say we have the following table
 
-Calling Number Called Number Rate
-05                 05        Local
-05                 06        National
+| Calling Number  | Called Number | Rate      |
+| ------------- | --------------- |-----------|
+| 05            | 05              | Local     |
+| 05            | 06              | National  |
 
 and we have the following query 
 
