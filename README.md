@@ -20,7 +20,9 @@ and run a set union operation on them.
 The two lookups are independent and only when both results arrive , we do a set union operation which should translate to 
 
 CompletableFuture<T> callingNumber = index.exactSearch("05");
+
 CompletableFuture<T> calledNumber = index.exactSearch("06");
+
 CompletableFuture<T> rate = 
     callingNumber.thenCombine(calledNumber, (rate1, rate2) -> unionOp(cust, shop));
     
