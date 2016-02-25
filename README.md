@@ -19,11 +19,12 @@ and run a set union operation on them.
 #Code design
 The two lookups are independent and only when both results arrive , we do a set union operation which should translate to 
 
-CompletableFuture<T> callingNumber = index.exactSearch("05");
-
-CompletableFuture<T> calledNumber = index.exactSearch("06");
-
-CompletableFuture<T> rate = 
-    callingNumber.thenCombine(calledNumber, (rate1, rate2) -> unionOp(cust, shop));
+```
+    public CompletableFuture<Set<V>> lookup(K callingNumber, K calledNumber) {
+        CompletableFuture<Set<V>> calling = callingNumberIndex.exactMatch(callingNumber);
+        CompletableFuture<Set<V>> called = calledNumberIndex.exactMatch(calledNumber);
+        return calling.thenCombine(called, (rate1, rate2) -> findCommonMatch(rate1, rate2));
+    }
+```
     
 
