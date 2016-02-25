@@ -1,29 +1,39 @@
 package com.spakai.index;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class PrimaryHashIndex<K,V> implements Index<K,V> {
 
-  private Map<K, V> index = new HashMap<K, V>();
+  private Map<K, V> index = new HashMap<>();
 
-  public Future<V> exactMatch(K key) {
+  public CompletableFuture<Set<V>> exactMatch(K key) {
 
-    Callable<V> task = () -> {
-      V result =  index.get(key);
-      return result;
-    };
+    CompletableFuture<Set<V>> futureLookup = new CompletableFuture<>();
 
-    final FutureTask<V> futureTask = new FutureTask<V>(task);
+    //TODO Change to executor later
+    new Thread(
+        () -> {
+            V result = index.get(key);
+            if (result != null) {
+              Set results = new HashSet();
+              results.add(result);
 
-    //TODO run the task in an executor
+              futureLookup.complete(results);
+            } else {
+              futureLookup.completeExceptionally(new Exception("No match found"));
+            }
+        }
+    ).start();
 
-    return futureTask;
-
+    return futureLookup;
   }
+
+  //TODO temporary way to load data
+  public void load(K key, V value) {
+    index.put(key, value);
+  }
+
 }
 
 
