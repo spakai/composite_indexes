@@ -27,8 +27,9 @@ public class TwoKeyLookupTest {
         callingNumberIndex = new PrimaryHashIndex<>();
         calledNumberIndex = new PrimaryHashIndex<>();
         callingNumberIndex.load("5","Local");
+        callingNumberIndex.load("7","Local");
         calledNumberIndex.load("6","Local");
-
+        calledNumberIndex.load("7","National");
         twoKeyLookup = new TwoKeyLookup<>(callingNumberIndex, calledNumberIndex);
 
     }
@@ -39,6 +40,21 @@ public class TwoKeyLookupTest {
 
     }
 
+    @Test
+    public void GetAValueFromIndexThatDoesNotExistInOneOfTheIndexes() throws ExecutionException, InterruptedException {
+      thrown.expect(Exception.class);                                                             
+      thrown.expectMessage("No match found");    
+      twoKeyLookup.lookup("6","6").get();
+
+    }
+
+    @Test
+    public void GetAValueFromIndexThatDoesNotExistDuringSetIntersection() throws ExecutionException, InterruptedException {
+      thrown.expect(Exception.class);                                                             
+      thrown.expectMessage("No match found");    
+      twoKeyLookup.lookup("7","7").get();
+
+    }
 
 
 }

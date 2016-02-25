@@ -2,6 +2,7 @@ package com.spakai.index;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import com.spakai.exception.*;
 
 public class PrimaryHashIndex<K,V> implements Index<K,V> {
 
@@ -21,7 +22,7 @@ public class PrimaryHashIndex<K,V> implements Index<K,V> {
 
               futureLookup.complete(results);
             } else {
-              futureLookup.completeExceptionally(new Exception("No match found"));
+              futureLookup.completeExceptionally(new NoMatchException("No match found"));
             }
         }
     ).start();
