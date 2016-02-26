@@ -2,32 +2,33 @@ package com.spakai.index;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+
 import com.spakai.exception.*;
 
 public class PrimaryHashIndex<K,V> implements Index<K,V> {
 
   private Map<K, V> index = new HashMap<>();
 
+  private final ExecutorService pool;
+
+  public PrimaryHashIndex(ExecutorService pool) {
+      this.pool = pool;
+  }
+
   public CompletableFuture<Set<V>> exactMatch(K key) {
+      return CompletableFuture.supplyAsync(
+              () -> {
+                V result = index.get(key);
+                if (result != null) {
+                  Set results = new HashSet();
+                  results.add(result);
+                  return results;
+                } else {
+                  throw new NoMatchException("No match found");
+                }
+              },pool);
 
-    CompletableFuture<Set<V>> futureLookup = new CompletableFuture<>();
-
-    //TODO Change to executor later
-    new Thread(
-        () -> {
-            V result = index.get(key);
-            if (result != null) {
-              Set results = new HashSet();
-              results.add(result);
-
-              futureLookup.complete(results);
-            } else {
-              futureLookup.completeExceptionally(new NoMatchException("No match found"));
-            }
-        }
-    ).start();
-
-    return futureLookup;
   }
 
   //TODO temporary way to load data

@@ -1,9 +1,9 @@
 
 package com.spakai.exception;
 
-import java.lang.Exception;
+import java.lang.RuntimeException;
 
-public class NoMatchException extends Exception {
+public class NoMatchException extends RuntimeException {
   public NoMatchException(String message) {
     super(message);
   }

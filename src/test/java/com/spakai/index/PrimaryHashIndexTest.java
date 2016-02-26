@@ -5,12 +5,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.mockito.internal.matchers.Equals;
-import java.util.concurrent.Future;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PrimaryHashIndexTest {
 
     PrimaryHashIndex<String, String> index;
+    ExecutorService pool = Executors.newFixedThreadPool(5);
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -18,7 +20,7 @@ public class PrimaryHashIndexTest {
 
     @Before
     public void setup() {
-        index = new PrimaryHashIndex<>();
+        index = new PrimaryHashIndex<>(pool);
         index.load("5","Local");
     }
 
@@ -34,7 +36,7 @@ public class PrimaryHashIndexTest {
 
     @Test
     public void GetAValueFromIndexThatDoesNotExist() throws Exception {
-        thrown.expect(Exception.class);
+        thrown.expect(ExecutionException.class);
         thrown.expectMessage("No match found");
 
         index.exactMatch("4").get();
