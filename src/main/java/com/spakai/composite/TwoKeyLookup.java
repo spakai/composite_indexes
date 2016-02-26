@@ -19,7 +19,8 @@ public class TwoKeyLookup<K,V> implements Composite<K,V> {
     public CompletableFuture<Set<V>> lookup(K callingNumber, K calledNumber) throws NoMatchException {
         CompletableFuture<Set<V>> calling = callingNumberIndex.exactMatch(callingNumber);
         CompletableFuture<Set<V>> called = calledNumberIndex.exactMatch(calledNumber);
-        return calling.thenCombine(called, this::findCommonMatch);
+        CompletableFuture<Set<V>> result = calling.thenCombine(called, (s1, s2) -> findCommonMatch(s1, s2));
+        return result;
     }
 
     public Set<V> findCommonMatch(Set<V> s1, Set<V> s2) throws NoMatchException {
