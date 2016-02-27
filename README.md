@@ -13,7 +13,7 @@ and we have the following query
 select Rate from table where Calling number = 05 and Called Number = 06;
 
 to do this we need two indexes, one for Calling Number -> Rate , one for Called Number ->Rate , we get the results of these lookups
-and run a set union operation on them.
+and run a set intersection operation on them.
 
 
 #Code design
