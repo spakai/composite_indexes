@@ -8,7 +8,7 @@ import java.util.Set;
 public abstract class Composite<K,V> {
 
     public Set<V> intersection(Set<V> s1, Set<V> s2) {
-        Set<V> set = new HashSet<V>(s1);
+        Set<V> set = new HashSet<>(s1);
         set.retainAll(s2);
 
         if (set.isEmpty()) {
