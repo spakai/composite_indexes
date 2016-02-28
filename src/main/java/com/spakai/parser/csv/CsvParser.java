@@ -27,7 +27,7 @@ public class CsvParser implements Iterator<Record> {
   }
   
    public Record mapToRecord(String line) {
-       String[] p = line.split(", ");
+       String[] p = line.split(",");
        //temp code for 3 member Record
        return new Record(p[0], p[1], p[2]);
    }
@@ -42,9 +42,9 @@ public class CsvParser implements Iterator<Record> {
   @Override
   public boolean hasNext() {
       if (position >= list.size() || list.get(position) == null) {
-	return false;
+	      return false;
       } else {
-	return true;
+	      return true;
       }
   } 
   
