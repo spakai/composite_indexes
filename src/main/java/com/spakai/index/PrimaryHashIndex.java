@@ -8,7 +8,7 @@ import com.spakai.exception.*;
 
 public class PrimaryHashIndex<K,V> implements Index<K,V> {
 
-  private Map<K, V> index = new HashMap<>();
+  private final Map<K, V> index = new HashMap<>();
 
   private final ExecutorService pool;
 
@@ -16,6 +16,7 @@ public class PrimaryHashIndex<K,V> implements Index<K,V> {
       this.pool = pool;
   }
 
+  @Override
   public CompletableFuture<Set<V>> exactMatch(K key) {
       return CompletableFuture.supplyAsync(
               () -> {
@@ -32,6 +33,7 @@ public class PrimaryHashIndex<K,V> implements Index<K,V> {
   }
 
   //TODO temporary way to load data
+  @Override
   public void load(K key, V value) {
     index.put(key, value);
   }
