@@ -6,13 +6,10 @@ public class Record {
   public final String calledNumber;
   public final String classification;
 
-  public Record(String a, String b, String c) {
-    callingNumber = a;
-    calledNumber  = b;
-    classification = c;
+  public Record(String[] p) {
+    callingNumber = p[0];
+    calledNumber  = p[1];
+    classification = p[2];
   }
-  
-  
-  
 }
 
