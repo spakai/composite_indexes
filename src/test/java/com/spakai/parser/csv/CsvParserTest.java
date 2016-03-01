@@ -22,7 +22,7 @@ public class CsvParserTest {
             parser.load("/home/prakash/test.csv");
 
             for(Record record : parser) {
-
+              assertThat(record.calledNumber, is("05"));
             } 
             
         } catch (Exception e) {
