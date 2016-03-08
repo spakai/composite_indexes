@@ -19,7 +19,7 @@ public class CsvParserTest {
     public void LoadFile() {
         try {
             CsvParser<Record> parser = new CsvParser<Record>(Record.class);
-            parser.load("/home/prakash/test.csv");
+            parser.load("test.csv");
 
             for(Record record : parser) {
               assertThat(record.calledNumber, is("05"));
