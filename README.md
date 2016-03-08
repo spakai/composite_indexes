@@ -17,7 +17,7 @@ and run a set intersection operation on them.
 
 
 #Code design
-The two lookups are independent and only when both results arrive , we do a set intersection operation which should translate to 
+The two lookups are independent and only when both results arrive , we do a set intersection operation which should translate to something like this
 
 ```
     public CompletableFuture<Set<V>> lookup(K callingNumber, K calledNumber) {
