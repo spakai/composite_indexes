@@ -32,6 +32,12 @@ public class PrimaryHashIndex<K,V> implements Index<K,V> {
 
   }
 
+  @Override
+  public CompletableFuture<Set<V>> bestMatch(K key) {
+      throw new NoMatchException("Best match is not supported");
+  }
+
+
   //TODO temporary way to load data
   @Override
   public void load(K key, V value) {
@@ -39,5 +45,3 @@ public class PrimaryHashIndex<K,V> implements Index<K,V> {
   }
 
 }
-
-
