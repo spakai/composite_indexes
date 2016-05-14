@@ -2,19 +2,12 @@ package com.spakai.index;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
 
-import com.spakai.exception.*;
+import com.spakai.exception.NoMatchException;
 
 public class PrimaryHashIndex<K,V> implements Index<K,V> {
 
   private final Map<K, V> index = new HashMap<>();
-
-  private final ExecutorService pool;
-
-  public PrimaryHashIndex(ExecutorService pool) {
-      this.pool = pool;
-  }
 
   @Override
   public CompletableFuture<Set<V>> exactMatch(K key) {
@@ -28,7 +21,7 @@ public class PrimaryHashIndex<K,V> implements Index<K,V> {
                 } else {
                   throw new NoMatchException("No match found");
                 }
-              },pool);
+              });
 
   }
 
