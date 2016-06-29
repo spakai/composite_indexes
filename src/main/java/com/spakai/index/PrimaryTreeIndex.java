@@ -5,9 +5,7 @@ import java.util.TreeMap;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
-
 import com.spakai.exception.NoMatchException;
-import java.util.Collections;
 
 public class PrimaryTreeIndex<K,V> implements Index<K,V> {
 
@@ -33,10 +31,10 @@ public class PrimaryTreeIndex<K,V> implements Index<K,V> {
   public CompletableFuture<Set<V>> bestMatch(K key) {
       return CompletableFuture.supplyAsync(
               () -> {
-                  Entry<K,V> entry = index.headMap(key).entrySet()
+                  Entry<K,V> entry = index.headMap(key, true).descendingMap().entrySet()
                                        .stream()
-                                       .sorted(Collections.reverseOrder())
-                                       .filter(e-> key.toString().startsWith(e.getKey().toString()))
+                                       .filter(e-> key.toString().startsWith(e.getKey().toString()) 
+                                               || key.toString().equals(e.getKey().toString()))
                                        .findFirst()
                                        .orElseThrow(() -> new NoMatchException("No match found"));
                   

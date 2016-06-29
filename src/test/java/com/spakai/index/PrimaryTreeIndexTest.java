@@ -19,6 +19,7 @@ public class PrimaryTreeIndexTest {
     public void setup() {
         index = new PrimaryTreeIndex<>();
         index.load("5","Local");
+        index.load("62","National");
     }
 
     @Test
@@ -40,6 +41,17 @@ public class PrimaryTreeIndexTest {
         }
 
     }
+    
+        @Test
+    public void GetABestMatchWhichIsExactMatchFromIndexThatExists() {
+        try {
+            assertThat(index.bestMatch("62").get().iterator().next(), is("National"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
     @Test
     public void GetAValueFromIndexThatDoesNotExist() throws Exception {
         thrown.expect(ExecutionException.class);
