@@ -3,8 +3,8 @@ package com.spakai.index;
 import java.util.concurrent.CompletableFuture;
 import java.util.Set;
 
-public interface Index<K,V> {
-  public CompletableFuture<Set<V>> exactMatch(K key);
-  public CompletableFuture<Set<V>> bestMatch(K key);
-  public void load(K key, V value);
+public interface Index<String,V> {
+  public CompletableFuture<Set<V>> exactMatch(String key);
+  public CompletableFuture<Set<V>> bestMatch(String key);
+  public void load(String key, V value);
 }

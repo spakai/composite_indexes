@@ -7,12 +7,12 @@ import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import com.spakai.exception.NoMatchException;
 
-public class PrimaryTreeIndex<K,V> implements Index<K,V> {
+public class PrimaryTreeIndex<String,V> implements Index<String,V> {
 
-  private final TreeMap<K, V> index = new TreeMap<>();
+  private final TreeMap<String, V> index = new TreeMap<>();
 
   @Override
-  public CompletableFuture<Set<V>> exactMatch(K key) {
+  public CompletableFuture<Set<V>> exactMatch(String key) {
       return CompletableFuture.supplyAsync(
               () -> {
                 V result = index.get(key);
@@ -27,16 +27,22 @@ public class PrimaryTreeIndex<K,V> implements Index<K,V> {
 
   }
 
-  @Override
-  public CompletableFuture<Set<V>> bestMatch(K key) {
+    /**
+     *
+     * @param key
+     * @return
+     */
+    @Override
+  public CompletableFuture<Set<V>> bestMatch(String key) {
+      
       return CompletableFuture.supplyAsync(
               () -> {
-                  Entry<K,V> entry = index.headMap(key, true).descendingMap().entrySet()
-                                       .stream()
-                                       .filter(e-> key.toString().startsWith(e.getKey().toString()) 
-                                               || key.toString().equals(e.getKey().toString()))
-                                       .findFirst()
-                                       .orElseThrow(() -> new NoMatchException("No match found"));
+                  Entry<String,V> entry = index.headMap(key, true).descendingMap().entrySet()
+                                            .stream()
+                                            .filter(e -> key.toString().startsWith(e.getKey().toString()) 
+                                                   || key.toString().equals(e.getKey().toString()))
+                                            .findFirst()
+                                            .orElseThrow(() -> new NoMatchException("No match found"));
                   
                    Set results = new HashSet();
                    results.add(entry.getValue());
@@ -46,9 +52,8 @@ public class PrimaryTreeIndex<K,V> implements Index<K,V> {
       );
   } 
 
-  //TODO temporary way to load data
   @Override
-  public void load(K key, V value) {
+  public void load(String key, V value) {
     index.put(key, value);
   }
 

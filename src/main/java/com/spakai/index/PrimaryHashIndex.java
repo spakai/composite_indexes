@@ -5,12 +5,12 @@ import java.util.concurrent.CompletableFuture;
 
 import com.spakai.exception.NoMatchException;
 
-public class PrimaryHashIndex<K,V> implements Index<K,V> {
+public class PrimaryHashIndex<String,V> implements Index<String,V> {
 
-  private final Map<K, V> index = new HashMap<>();
+  private final Map<String, V> index = new HashMap<>();
 
   @Override
-  public CompletableFuture<Set<V>> exactMatch(K key) {
+  public CompletableFuture<Set<V>> exactMatch(String key) {
       return CompletableFuture.supplyAsync(
               () -> {
                 V result = index.get(key);
@@ -26,14 +26,12 @@ public class PrimaryHashIndex<K,V> implements Index<K,V> {
   }
 
   @Override
-  public CompletableFuture<Set<V>> bestMatch(K key) {
+  public CompletableFuture<Set<V>> bestMatch(String key) {
       throw new NoMatchException("Best match is not supported");
   }
 
-
-  //TODO temporary way to load data
   @Override
-  public void load(K key, V value) {
+  public void load(String key, V value) {
     index.put(key, value);
   }
 
