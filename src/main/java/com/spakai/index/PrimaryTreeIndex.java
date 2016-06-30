@@ -17,11 +17,11 @@ public class PrimaryTreeIndex<String,V> implements Index<String,V> {
               () -> {
                 V result = index.get(key);
                 if (result != null) {
-                  Set results = new HashSet();
+                  Set<V> results = new HashSet<>();
                   results.add(result);
                   return results;
                 } else {
-                  throw new NoMatchException("No match found");
+                    throw new NoMatchException("No match found");
                 }
               });
 
@@ -34,17 +34,17 @@ public class PrimaryTreeIndex<String,V> implements Index<String,V> {
      */
     @Override
   public CompletableFuture<Set<V>> bestMatch(String key) {
-      
+     
       return CompletableFuture.supplyAsync(
               () -> {
                   Entry<String,V> entry = index.headMap(key, true).descendingMap().entrySet()
                                             .stream()
-                                            .filter(e -> key.toString().startsWith(e.getKey().toString()) 
-                                                   || key.toString().equals(e.getKey().toString()))
+                                            .filter(e -> key.equals(e.getKey()) 
+                                                   || key.toString().startsWith(e.getKey().toString()))
                                             .findFirst()
                                             .orElseThrow(() -> new NoMatchException("No match found"));
                   
-                   Set results = new HashSet();
+                   Set<V> results = new HashSet<>();
                    results.add(entry.getValue());
                    return results;
                   

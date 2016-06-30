@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.toList;
 
 public class CsvParser<T> implements Iterable<T> {
     
-  private Class<T> clazz; 
+  private final Class<T> clazz; 
     
   private List<T> list;
   
@@ -31,8 +31,6 @@ public class CsvParser<T> implements Iterable<T> {
       } catch (InstantiationException | IllegalAccessException
               | IllegalArgumentException | InvocationTargetException
               | NoSuchMethodException | SecurityException e) {
-          // TODO Auto-generated catch block
-          e.printStackTrace();
           return null;
       }
   }
@@ -52,11 +50,7 @@ public class CsvParser<T> implements Iterable<T> {
         
           @Override
           public boolean hasNext() {
-              if (position >= list.size() || list.get(position) == null) {
-        	      return false;
-              } else {
-        	      return true;
-              }
+              return !(position >= list.size() || list.get(position) == null);
           } 
       };
   }

@@ -20,6 +20,10 @@ public class PrimaryTreeIndexTest {
         index = new PrimaryTreeIndex<>();
         index.load("5","Local");
         index.load("62","National");
+        index.load("72123","Free");
+        index.load("7212","LocalLocal");
+        index.load("721","Local");
+        
     }
 
     @Test
@@ -35,7 +39,7 @@ public class PrimaryTreeIndexTest {
      @Test
     public void GetABestMatchValueFromIndexThatExists() {
         try {
-            assertThat(index.bestMatch("52").get().iterator().next(), is("Local"));
+            assertThat(index.bestMatch("72125").get().iterator().next(), is("LocalLocal"));
         } catch (Exception e) {
             e.printStackTrace();
         }
