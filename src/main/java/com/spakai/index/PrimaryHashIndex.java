@@ -5,9 +5,13 @@ import java.util.concurrent.CompletableFuture;
 
 import com.spakai.exception.NoMatchException;
 
-public class PrimaryHashIndex<String,V> implements Index<String,V> {
+public class PrimaryHashIndex<V> implements Index<V> {
 
-  private final Map<String, V> index = new HashMap<>();
+  private final Map<String,V> index;
+
+    public PrimaryHashIndex() {
+        this.index = new HashMap<>();
+    }
 
   @Override
   public CompletableFuture<Set<V>> exactMatch(String key) {

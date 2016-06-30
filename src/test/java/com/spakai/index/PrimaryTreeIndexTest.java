@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 public class PrimaryTreeIndexTest {
 
-    PrimaryTreeIndex<String, String> index;
+    PrimaryTreeIndex<String> index;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

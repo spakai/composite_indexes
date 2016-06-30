@@ -7,9 +7,13 @@ import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import com.spakai.exception.NoMatchException;
 
-public class PrimaryTreeIndex<String,V> implements Index<String,V> {
+public class PrimaryTreeIndex<V> implements Index<V> {
 
-  private final TreeMap<String, V> index = new TreeMap<>();
+  private final TreeMap<String, V> index;
+
+    public PrimaryTreeIndex() {
+        this.index = new TreeMap<>();
+    }
 
   @Override
   public CompletableFuture<Set<V>> exactMatch(String key) {
@@ -39,8 +43,7 @@ public class PrimaryTreeIndex<String,V> implements Index<String,V> {
               () -> {
                   Entry<String,V> entry = index.headMap(key, true).descendingMap().entrySet()
                                             .stream()
-                                            .filter(e -> key.equals(e.getKey()) 
-                                                   || key.toString().startsWith(e.getKey().toString()))
+                                            .filter(e -> key.startsWith(e.getKey()) || key.equals(e.getKey()))
                                             .findFirst()
                                             .orElseThrow(() -> new NoMatchException("No match found"));
                   
@@ -51,7 +54,7 @@ public class PrimaryTreeIndex<String,V> implements Index<String,V> {
               }
       );
   } 
-
+  
   @Override
   public void load(String key, V value) {
     index.put(key, value);

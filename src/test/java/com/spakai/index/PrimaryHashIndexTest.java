@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutionException;
 
 public class PrimaryHashIndexTest {
 
-    PrimaryHashIndex<String, String> index;
+    PrimaryHashIndex<String> index;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();

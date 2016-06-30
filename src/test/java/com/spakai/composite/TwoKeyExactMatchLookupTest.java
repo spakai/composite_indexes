@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
 import java.util.concurrent.ExecutionException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -14,14 +13,14 @@ public class TwoKeyExactMatchLookupTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    TwoKeyExactMatchLookup<String,String> twoKeyExactMatchLookup ;
-    Index<String, String> callingNumberIndex;
-    Index<String, String> calledNumberIndex;
+    TwoKeyExactMatchLookup<String> twoKeyExactMatchLookup ;
+    Index<String> callingNumberIndex;
+    Index<String> calledNumberIndex;
 
     @Before
     public void setup() {
-        callingNumberIndex = new PrimaryHashIndex<String,String>();
-        calledNumberIndex = new PrimaryHashIndex<String,String>();
+        callingNumberIndex = new PrimaryHashIndex<>();
+        calledNumberIndex = new PrimaryHashIndex<>();
         
         callingNumberIndex.load("5","Local");
         callingNumberIndex.load("7","Local");
