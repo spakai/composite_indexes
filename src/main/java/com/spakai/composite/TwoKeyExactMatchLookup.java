@@ -22,7 +22,7 @@ public class TwoKeyExactMatchLookup<V> {
         return calling.thenCombineAsync(called, (s1, s2) -> intersection(s1, s2));
     }
     
-        public Set<V> intersection(Set<V> s1, Set<V> s2) {
+    public Set<V> intersection(Set<V> s1, Set<V> s2) {
         Set<V> set;
         set = new HashSet<>(s1);
         set.retainAll(s2);

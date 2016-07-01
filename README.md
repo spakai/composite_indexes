@@ -21,9 +21,9 @@ The two lookups are independent and only when both results arrive , we do a set 
 
 ```
     public CompletableFuture<Set<V>> lookup(K callingNumber, K calledNumber) {
-        CompletableFuture<Set<V>> calling = callingNumberIndex.exactMatch(callingNumber);
-        CompletableFuture<Set<V>> called = calledNumberIndex.exactMatch(calledNumber);
-        return calling.thenCombine(called, (rate1, rate2) -> findCommonMatch(rate1, rate2));
+        CompletableFuture<Set<V>> calling = callingNumberIndex.bestMatch(callingNumber);
+        CompletableFuture<Set<V>> called = calledNumberIndex.bestMatch(calledNumber);
+        return calling.thenCombineAsync(called, (s1, s2) -> intersection(s1, s2));
     }
 ```
     
