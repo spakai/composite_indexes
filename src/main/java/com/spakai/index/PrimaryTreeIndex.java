@@ -43,7 +43,7 @@ public class PrimaryTreeIndex<V> implements Index<V> {
               () -> {
                   Entry<String,V> entry = index.headMap(key, true).descendingMap().entrySet()
                                             .stream()
-                                            .filter(e -> key.startsWith(e.getKey()) || key.equals(e.getKey()))
+                                            .filter(e -> isLongestMatching(key, e.getKey()))
                                             .findFirst()
                                             .orElseThrow(() -> new NoMatchException("No match found"));
                   
@@ -54,6 +54,10 @@ public class PrimaryTreeIndex<V> implements Index<V> {
               }
       );
   } 
+  
+  public boolean isLongestMatching(String requestedKey, String currentKeyInMap) {
+      return (requestedKey.equals(currentKeyInMap) || (requestedKey.startsWith(currentKeyInMap)));
+  }
   
   @Override
   public void load(String key, V value) {
