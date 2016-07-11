@@ -6,10 +6,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PrimaryTreeIndexTest {
 
     PrimaryTreeIndex<String> index;
+    ExecutorService pool;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -17,7 +20,8 @@ public class PrimaryTreeIndexTest {
 
     @Before
     public void setup() {
-        index = new PrimaryTreeIndex<>();
+        pool = Executors.newFixedThreadPool(1);
+        index = new PrimaryTreeIndex<String>(pool);
         index.load("5","Local");
         index.load("62","National");
         index.load("72123","Free");

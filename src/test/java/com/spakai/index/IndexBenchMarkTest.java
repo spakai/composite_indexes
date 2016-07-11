@@ -15,10 +15,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class IndexBenchMarkTest {
 
     PrimaryHashIndex<String> index;
+    ExecutorService pool;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -26,7 +29,8 @@ public class IndexBenchMarkTest {
 
     @Before
     public void setup() {
-        index = new PrimaryHashIndex<>();
+        pool = Executors.newFixedThreadPool(1);
+        index = new PrimaryHashIndex<>(pool);
         for(Integer i =0 ; i < 1000001 ; i++) {
             index.load(i.toString(), i.toString());
         }

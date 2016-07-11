@@ -1,6 +1,7 @@
 package com.spakai.composite;
 import com.spakai.index.Index;
 import com.spakai.index.PrimaryHashIndex;
+import java.net.URL;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,21 +14,13 @@ public class TwoKeyExactMatchLookupTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    TwoKeyExactMatchLookup<String> twoKeyExactMatchLookup ;
-    Index<String> callingNumberIndex;
-    Index<String> calledNumberIndex;
-
+    TwoKeyExactMatchLookup twoKeyExactMatchLookup ;
+    
     @Before
     public void setup() {
-        callingNumberIndex = new PrimaryHashIndex<>();
-        calledNumberIndex = new PrimaryHashIndex<>();
-        
-        callingNumberIndex.load("5","Local");
-        callingNumberIndex.load("7","Local");
-        calledNumberIndex.load("6","Local");
-        calledNumberIndex.load("7","National");
-        
-        twoKeyExactMatchLookup = new TwoKeyExactMatchLookup(callingNumberIndex,calledNumberIndex );
+        URL url = this.getClass().getResource("/data.csv");
+        System.out.println(url.getPath());
+        twoKeyExactMatchLookup = new TwoKeyExactMatchLookup(url.getPath(),2);
     }
 
     @Test
@@ -40,17 +33,14 @@ public class TwoKeyExactMatchLookupTest {
       thrown.expect(ExecutionException.class);
       thrown.expectMessage("No match found");    
       twoKeyExactMatchLookup.lookup("6","6").get();
-
     }
 
     @Test
     public void GetAValueFromIndexThatDoesNotExistDuringSetIntersection() throws ExecutionException, InterruptedException {
       thrown.expect(ExecutionException.class);
       thrown.expectMessage("No match found");    
-      twoKeyExactMatchLookup.lookup("7","7").get();
+      twoKeyExactMatchLookup.lookup("5","7").get();
 
     }
-
-
 }
 

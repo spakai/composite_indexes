@@ -1,4 +1,9 @@
 package com.spakai.index;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
@@ -6,18 +11,23 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PrimaryHashIndexTest {
 
     PrimaryHashIndex<String> index;
-
+    ExecutorService pool;
+    
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
 
     @Before
     public void setup() {
-        index = new PrimaryHashIndex<>();
+        pool = Executors.newFixedThreadPool(1);
+        index = new PrimaryHashIndex<String>(pool);
         index.load("5","Local");
     }
 
@@ -38,6 +48,5 @@ public class PrimaryHashIndexTest {
 
         index.exactMatch("4").get();
     }
-
 }
 

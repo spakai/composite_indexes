@@ -2,9 +2,17 @@ package com.spakai.index;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
-public interface Index<V> {
-  public CompletableFuture<Set<V>> exactMatch(String key);
-  public CompletableFuture<Set<V>> bestMatch(String key);
-  public void load(String key, V value);
+public abstract class Index<V> {
+    
+  protected final ExecutorService pool;
+    
+  public Index(ExecutorService pool) {
+      this.pool = pool;
+  }
+  
+  public abstract CompletableFuture<Set<V>> exactMatch(String key);
+  public abstract CompletableFuture<Set<V>> bestMatch(String key);
+  public abstract void load(String key, V value);
 }

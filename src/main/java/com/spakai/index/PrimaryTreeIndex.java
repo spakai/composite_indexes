@@ -6,28 +6,30 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import com.spakai.exception.NoMatchException;
+import java.util.concurrent.ExecutorService;
 
-public class PrimaryTreeIndex<V> implements Index<V> {
+public class PrimaryTreeIndex<V> extends Index<V> {
 
   private final TreeMap<String, V> index;
 
-    public PrimaryTreeIndex() {
+    public PrimaryTreeIndex(ExecutorService pool) {
+        super(pool);
         this.index = new TreeMap<>();
     }
-
+  
   @Override
   public CompletableFuture<Set<V>> exactMatch(String key) {
       return CompletableFuture.supplyAsync(
               () -> {
                 V result = index.get(key);
                 if (result != null) {
-                  Set<V> results = new HashSet<>();
+                  Set<V> results = new HashSet<>(1);
                   results.add(result);
                   return results;
                 } else {
                     throw new NoMatchException("No match found");
                 }
-              });
+              }, pool);
 
   }
 
