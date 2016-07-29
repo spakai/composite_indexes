@@ -20,7 +20,8 @@ import java.util.concurrent.Executors;
 
 public class IndexBenchMarkTest {
 
-    PrimaryHashIndex<String> index;
+    PrimaryHashIndex<String> hashIndex;
+    PrimaryTreeIndex<String> treeIndex;
     ExecutorService pool;
 
     @Rule
@@ -29,24 +30,31 @@ public class IndexBenchMarkTest {
 
     @Before
     public void setup() {
-        pool = Executors.newFixedThreadPool(1);
-        index = new PrimaryHashIndex<>(pool);
+        pool = Executors.newFixedThreadPool(3);
+        
+        hashIndex = new PrimaryHashIndex<>(pool);
         for(Integer i =0 ; i < 1000001 ; i++) {
-            index.load(i.toString(), i.toString());
+            hashIndex.load(i.toString(), i.toString());
         }
         
     }
 
     @Test
-    public void performanceTest() {
-        //warm up
-        for(Integer i=0; i< 500 ; i++) {
-            index.exactMatch(i.toString());
-        }
-        
+    public void performanceTestSync() {
         Instant start = Instant.now();
         for(Integer i=0; i< 50001 ; i++) {
-            index.exactMatch(i.toString());
+            hashIndex.syncExactMatch(i.toString());
+        }
+        
+        Duration between = Duration.between(start, Instant.now());
+        System.out.println("Time taken in ms:: " +  between.toMillis());
+    }
+    
+    @Test
+    public void performanceTestASync() {
+        Instant start = Instant.now();
+        for(Integer i=0; i< 50001 ; i++) {
+            hashIndex.asyncExactMatch(i.toString());
         }
         
         Duration between = Duration.between(start, Instant.now());

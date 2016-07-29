@@ -51,8 +51,8 @@ public class TwoKeyExactMatchLookup {
     }
     
     public CompletableFuture<Set<String>> lookup(String callingNumber, String calledNumber) {
-        CompletableFuture<Set<String>> calling = callingNumberIndex.exactMatch(callingNumber);
-        CompletableFuture<Set<String>> called = calledNumberIndex.exactMatch(calledNumber);
+        CompletableFuture<Set<String>> calling = callingNumberIndex.asyncExactMatch(callingNumber);
+        CompletableFuture<Set<String>> called = calledNumberIndex.asyncExactMatch(calledNumber);
         return calling.thenCombineAsync(called, (s1, s2) -> intersection(s1, s2));
     }
     

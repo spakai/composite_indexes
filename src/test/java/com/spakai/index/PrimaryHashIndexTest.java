@@ -34,7 +34,7 @@ public class PrimaryHashIndexTest {
     @Test
     public void GetAValueFromIndexThatExists() {
         try {
-            assertThat(index.exactMatch("5").get().iterator().next(), is("Local"));
+            assertThat(index.asyncExactMatch("5").get().iterator().next(), is("Local"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class PrimaryHashIndexTest {
         thrown.expect(ExecutionException.class);
         thrown.expectMessage("No match found");
 
-        index.exactMatch("4").get();
+        index.asyncExactMatch("4").get();
     }
 }
 

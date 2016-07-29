@@ -12,7 +12,9 @@ public abstract class Index<V> {
       this.pool = pool;
   }
   
-  public abstract CompletableFuture<Set<V>> exactMatch(String key);
-  public abstract CompletableFuture<Set<V>> bestMatch(String key);
+  public abstract CompletableFuture<Set<V>> asyncExactMatch(String key);
+  public abstract Set<V> syncExactMatch(String key);
+  public abstract CompletableFuture<Set<V>> asyncBestMatch(String key);
+  public abstract Set<V> syncBestMatch(String key);
   public abstract void load(String key, V value);
 }

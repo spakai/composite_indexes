@@ -8,6 +8,7 @@ package com.spakai.parser.csv;
 import java.io.IOException;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -16,13 +17,15 @@ import org.junit.Test;
  */
 public class CsvParserTest {
      @Test
+     @Ignore
     public void LoadFile() {
         try {
             CsvParser<Record> parser = new CsvParser<Record>(Record.class);
-            parser.load("test.csv");
-
+            parser.load("data.csv");
+           
             for(Record record : parser) {
               assertThat(record.calledNumber, is("05"));
+              break;
             } 
             
         } catch (Exception e) {

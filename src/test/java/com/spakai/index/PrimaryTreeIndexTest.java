@@ -33,7 +33,7 @@ public class PrimaryTreeIndexTest {
     @Test
     public void GetAExactMatchValueFromIndexThatExists() {
         try {
-            assertThat(index.exactMatch("5").get().iterator().next(), is("Local"));
+            assertThat(index.asyncExactMatch("5").get().iterator().next(), is("Local"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class PrimaryTreeIndexTest {
      @Test
     public void GetABestMatchValueFromIndexThatExists() {
         try {
-            assertThat(index.bestMatch("72125").get().iterator().next(), is("LocalLocal"));
+            assertThat(index.asyncBestMatch("72125").get().iterator().next(), is("LocalLocal"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class PrimaryTreeIndexTest {
         @Test
     public void GetABestMatchWhichIsExactMatchFromIndexThatExists() {
         try {
-            assertThat(index.bestMatch("62").get().iterator().next(), is("National"));
+            assertThat(index.asyncBestMatch("62").get().iterator().next(), is("National"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,7 +65,7 @@ public class PrimaryTreeIndexTest {
         thrown.expect(ExecutionException.class);
         thrown.expectMessage("No match found");
 
-        index.exactMatch("4").get();
+        index.asyncExactMatch("4").get();
     }
 
 }

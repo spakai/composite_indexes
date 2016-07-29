@@ -18,7 +18,7 @@ public class PrimaryTreeIndex<V> extends Index<V> {
     }
   
   @Override
-  public CompletableFuture<Set<V>> exactMatch(String key) {
+  public CompletableFuture<Set<V>> asyncExactMatch(String key) {
       return CompletableFuture.supplyAsync(
               () -> {
                 V result = index.get(key);
@@ -32,14 +32,26 @@ public class PrimaryTreeIndex<V> extends Index<V> {
               }, pool);
 
   }
-
+  
+  @Override
+  public Set<V> syncExactMatch(String key) {
+       V result = index.get(key);
+       if (result != null) {
+         Set<V> results = new HashSet<>(1);
+         results.add(result);
+         return results;
+       } else {
+         throw new NoMatchException("No match found");
+       }
+  }
+  
     /**
      *
      * @param key
      * @return
      */
     @Override
-  public CompletableFuture<Set<V>> bestMatch(String key) {
+  public CompletableFuture<Set<V>> asyncBestMatch(String key) {
      
       return CompletableFuture.supplyAsync(
               () -> {
@@ -56,6 +68,13 @@ public class PrimaryTreeIndex<V> extends Index<V> {
               }
       );
   } 
+  
+  
+  @Override
+  public Set<V> syncBestMatch(String key) {
+      return null;
+      
+  }
   
   public boolean isPartiallyOrFullyMatching(String requestedKey, String currentKeyInMap) {
       return (requestedKey.equals(currentKeyInMap) || (requestedKey.startsWith(currentKeyInMap)));
