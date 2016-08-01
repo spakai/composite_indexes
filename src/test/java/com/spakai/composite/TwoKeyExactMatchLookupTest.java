@@ -24,22 +24,27 @@ public class TwoKeyExactMatchLookupTest {
     }
 
     @Test
-    public void GetAValueFromIndexThatExists() throws ExecutionException, InterruptedException {
-        assertThat(twoKeyExactMatchLookup.lookup("5","6").get().iterator().next(),is("Local"));
+    public void AsyncGetAValueFromIndexThatExists() throws ExecutionException, InterruptedException {
+        assertThat(twoKeyExactMatchLookup.asyncLookup("5","6").get().iterator().next(),is("Local"));
+    }
+    
+     @Test
+    public void SyncGetAValueFromIndexThatExists() throws ExecutionException, InterruptedException {
+        assertThat(twoKeyExactMatchLookup.syncLookup("5","6").iterator().next(),is("Local"));
     }
 
     @Test
-    public void GetAValueFromIndexThatDoesNotExistInOneOfTheIndexes() throws ExecutionException, InterruptedException {
+    public void AsyncGetAValueFromIndexThatDoesNotExistInOneOfTheIndexes() throws ExecutionException, InterruptedException {
       thrown.expect(ExecutionException.class);
       thrown.expectMessage("No match found");    
-      twoKeyExactMatchLookup.lookup("6","6").get();
+      twoKeyExactMatchLookup.asyncLookup("6","6").get();
     }
 
     @Test
-    public void GetAValueFromIndexThatDoesNotExistDuringSetIntersection() throws ExecutionException, InterruptedException {
+    public void AsyncGetAValueFromIndexThatDoesNotExistDuringSetIntersection() throws ExecutionException, InterruptedException {
       thrown.expect(ExecutionException.class);
       thrown.expectMessage("No match found");    
-      twoKeyExactMatchLookup.lookup("5","7").get();
+      twoKeyExactMatchLookup.asyncLookup("5","7").get();
 
     }
 }

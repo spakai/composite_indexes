@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
@@ -39,10 +40,14 @@ public class IndexBenchMarkTest {
             hashIndex.load(i.toString(), i.toString());
         }
         
+        treeIndex = new PrimaryTreeIndex<>(pool);
+        for(Integer i = 0; i < 1000001 ; i++) {
+            treeIndex.load(i.toString(), i.toString());
+        }
     }
 
     @Test
-    public void performanceTestSync() {
+    public void performanceTestExactSync() {
         Instant start = Instant.now();
         for(Integer i=0; i< 50001 ; i++) {
             hashIndex.syncExactMatch(i.toString());
@@ -53,16 +58,22 @@ public class IndexBenchMarkTest {
     }
     
     @Test
-    public void performanceTestASync() {
+    public void performanceTestExactASync() {
+        List<CompletableFuture<Set<String>>> hold = new ArrayList<>(50000);
         Instant start = Instant.now();
         for(Integer i=0; i< 50001 ; i++) {
-            try {
-                hashIndex.asyncExactMatch(i.toString()).get();
-            } catch (InterruptedException ex) {
-                //
-            } catch (ExecutionException ex) {
-                //
-            }
+            hold.add(hashIndex.asyncExactMatch(i.toString()));
+        }
+        
+        Duration between = Duration.between(start, Instant.now());
+        System.out.println("Time taken in ms:: " +  between.toMillis());
+    }
+    
+      @Test
+    public void performanceTestBestSync() {
+        Instant start = Instant.now();
+        for(Integer i=0; i< 50001 ; i++) {
+            treeIndex.syncExactMatch(i.toString());
         }
         
         Duration between = Duration.between(start, Instant.now());
