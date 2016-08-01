@@ -17,6 +17,8 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class IndexBenchMarkTest {
 
@@ -54,7 +56,13 @@ public class IndexBenchMarkTest {
     public void performanceTestASync() {
         Instant start = Instant.now();
         for(Integer i=0; i< 50001 ; i++) {
-            hashIndex.asyncExactMatch(i.toString());
+            try {
+                hashIndex.asyncExactMatch(i.toString()).get();
+            } catch (InterruptedException ex) {
+                //
+            } catch (ExecutionException ex) {
+                //
+            }
         }
         
         Duration between = Duration.between(start, Instant.now());
