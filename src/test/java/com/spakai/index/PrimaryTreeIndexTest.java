@@ -50,6 +50,17 @@ public class PrimaryTreeIndexTest {
 
     }
     
+      @Test
+    public void GetASyncBestMatchValueFromIndexThatExists() {
+        try {
+            assertThat(index.syncBestMatch("72125").iterator().next(), is("LocalLocal"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    
+    
         @Test
     public void GetABestMatchWhichIsExactMatchFromIndexThatExists() {
         try {

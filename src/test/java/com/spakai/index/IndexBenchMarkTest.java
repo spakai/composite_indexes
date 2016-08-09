@@ -7,19 +7,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class IndexBenchMarkTest {
 
@@ -72,8 +66,8 @@ public class IndexBenchMarkTest {
       @Test
     public void performanceTestBestSync() {
         Instant start = Instant.now();
-        for(Integer i=0; i< 50001 ; i++) {
-            treeIndex.syncExactMatch(i.toString());
+        for(Integer i=0; i< 501 ; i++) {
+            treeIndex.syncBestMatch(i.toString());
         }
         
         Duration between = Duration.between(start, Instant.now());

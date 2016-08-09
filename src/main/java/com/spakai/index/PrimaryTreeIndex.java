@@ -72,8 +72,16 @@ public class PrimaryTreeIndex<V> extends Index<V> {
   
   @Override
   public Set<V> syncBestMatch(String key) {
-      return null;
       
+        Entry<String,V> entry = index.headMap(key, true).descendingMap().entrySet()
+                                    .stream()
+                                    .filter(e -> isPartiallyOrFullyMatching(key, e.getKey()))
+                                    .findFirst()
+                                    .orElseThrow(() -> new NoMatchException("No match found"));
+                  
+        Set<V> results = new HashSet<>();
+        results.add(entry.getValue());
+        return results;
   }
   
   public boolean isPartiallyOrFullyMatching(String requestedKey, String currentKeyInMap) {
