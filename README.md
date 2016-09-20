@@ -27,4 +27,6 @@ The two lookups are independent and only when both results arrive , we do a set 
     }
 ```
     
+#Issues
+Benchmarking tests show that best match search is slow.
 
