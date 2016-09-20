@@ -66,7 +66,7 @@ public class IndexBenchMarkTest {
       @Test
     public void performanceTestBestSync() {
         Instant start = Instant.now();
-        for(Integer i=0; i< 501 ; i++) {
+        for(Integer i=0; i< 50001 ; i++) {
             treeIndex.syncBestMatch(i.toString());
         }
         

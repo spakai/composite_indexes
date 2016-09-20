@@ -73,15 +73,33 @@ public class PrimaryTreeIndex<V> extends Index<V> {
   @Override
   public Set<V> syncBestMatch(String key) {
       
-        Entry<String,V> entry = index.headMap(key, true).descendingMap().entrySet()
-                                    .stream()
-                                    .filter(e -> isPartiallyOrFullyMatching(key, e.getKey()))
-                                    .findFirst()
-                                    .orElseThrow(() -> new NoMatchException("No match found"));
-                  
-        Set<V> results = new HashSet<>();
-        results.add(entry.getValue());
-        return results;
+    String keyToFind = key;
+    for (;;) {
+        Entry<String, V> entry = index.floorEntry(keyToFind);
+        if (entry == null) {
+            throw new NoMatchException("No match found");
+        }
+        
+        String foundKey = entry.getKey();
+        int prefixLen = 0;
+        while (prefixLen < keyToFind.length() && prefixLen < foundKey.length() &&
+               keyToFind.charAt(prefixLen) == foundKey.charAt(prefixLen)) {
+            prefixLen++;
+        }
+        
+        if (prefixLen == 0) {
+            throw new NoMatchException("No match found");
+        }
+        
+        if (prefixLen == foundKey.length()) {
+            Set<V> results = new HashSet<>();
+            results.add(entry.getValue());
+            return results;
+        }
+            
+        keyToFind = key.substring(0, prefixLen);
+    }
+   
   }
   
   public boolean isPartiallyOrFullyMatching(String requestedKey, String currentKeyInMap) {
