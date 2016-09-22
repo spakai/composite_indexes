@@ -58,21 +58,26 @@ public class TrieIndex {
         
     }
     
-    public TrieNode bestSearch(String word) {
+    public String bestSearch(String word) {
         
         Map<Character, TrieNode> children = root.children;
         TrieNode t = null;
-        TrieNode BestMatchedTrieNode = null;
+        String bestMatched = "";
+        boolean flaggedAsLeaf = false;
         
         for( int i =0 ; i < word.length(); i++) {
             char c = word.charAt(i);
             if (children.containsKey(c)) {
                 t = children.get(c);
+                bestMatched += t.c;
+                if (t.isLeaf) flaggedAsLeaf= true;
                 children = t.children;
-                if (t.isLeaf) BestMatchedTrieNode = t;
-                
             } else {
-                return BestMatchedTrieNode;
+                if (flaggedAsLeaf) {
+                    return bestMatched;
+                } else {
+                    return null;
+                }
             }
         }
         

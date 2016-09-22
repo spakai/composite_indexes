@@ -28,11 +28,11 @@ public class TrieIndexTest {
     @Test
     public void BestMatchSearch() {
         
-        String s = "6017555";
-        index.insert(s);
-        
-        TrieNode node = index.bestSearch("60175559138");
-        assertThat(node.c, is (s));
+        index.insert("0060175559138");
+        index.insert("006017555");
+        index.insert("006017");
+        index.insert("0060");
+        assertThat(index.bestSearch("0060175552020"), is ("006017555"));
     }  
 }
 
