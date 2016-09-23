@@ -5,6 +5,7 @@ import java.util.Map;
 
 class TrieNode {
     char c;
+    String word;
     HashMap<Character, TrieNode>  children = new HashMap<>();
     boolean isLeaf;
     
@@ -42,6 +43,7 @@ public class TrieIndex {
              children = t.children;
              
              if ( i == word.length() - 1) {
+                 t.word = word;
                  t.isLeaf = true;
              }
              
@@ -62,22 +64,19 @@ public class TrieIndex {
         
         Map<Character, TrieNode> children = root.children;
         TrieNode t = null;
-        String bestMatched = "";
-        boolean flaggedAsLeaf = false;
+        String longestPrefix = null;
         
         for( int i =0 ; i < word.length(); i++) {
             char c = word.charAt(i);
             if (children.containsKey(c)) {
                 t = children.get(c);
-                bestMatched += t.c;
-                if (t.isLeaf) flaggedAsLeaf= true;
+                
+                if (t.isLeaf) {
+                    longestPrefix = t.word;
+                }
                 children = t.children;
             } else {
-                if (flaggedAsLeaf) {
-                    return bestMatched;
-                } else {
-                    return null;
-                }
+                return longestPrefix;
             }
         }
         
