@@ -20,12 +20,12 @@ public class TrieIndexTest {
 
     @Test
     public void BestMatchSearch() {
+        index.insert("0060175559138","VIP");
+        index.insert("006017555","National");
+        index.insert("006017","Local");
+        index.insert("0060","X");
         
-        index.insert("0060175559138");
-        index.insert("006017555");
-        index.insert("006017");
-        index.insert("0060");
-        assertThat(index.bestSearch("0060175552020"), is ("006017555"));
+        assertThat(index.bestSearch("0060175552020"), is ("National"));
     }  
 }
 

@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 class TrieNode {
-    char c;
-    String word;
+    char key;
+    String value;
     HashMap<Character, TrieNode>  children = new HashMap<>(10);
     boolean isLeaf;
     
@@ -13,8 +13,8 @@ class TrieNode {
         
     }
     
-    public TrieNode(char c) {
-        this.c = c;
+    public TrieNode(char key) {
+        this.key = key;
     }
     
 }
@@ -26,11 +26,11 @@ public class TrieIndex {
         root = new TrieNode();
     }
     
-    public void insert(String word) {
+    public void insert(String key, String value) {
          Map<Character, TrieNode> children = root.children;
          
-         for(int i=0; i < word.length(); i++) {
-             char c = word.charAt(i);
+         for(int i=0; i < key.length(); i++) {
+             char c = key.charAt(i);
              
              TrieNode t;
              if (children.containsKey(c)) {
@@ -42,27 +42,27 @@ public class TrieIndex {
              
              children = t.children;
              
-             if ( i == word.length() - 1) {
-                 t.word = word;
+             if ( i == key.length() - 1) {
+                 t.value = value;
                  t.isLeaf = true;
              }
              
          }
     }
     
-    public String bestSearch(String word) {
+    public String bestSearch(String key) {
         
         Map<Character, TrieNode> children = root.children;
         TrieNode t = null;
         String longestPrefix = null;
         
-        for( int i =0 ; i < word.length(); i++) {
-            char c = word.charAt(i);
+        for( int i =0 ; i < key.length(); i++) {
+            char c = key.charAt(i);
             if (children.containsKey(c)) {
                 t = children.get(c);
                 
                 if (t.isLeaf) {
-                    longestPrefix = t.word;
+                    longestPrefix = t.value;
                 }
                 children = t.children;
             } else {
