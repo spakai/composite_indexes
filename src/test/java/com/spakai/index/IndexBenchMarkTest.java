@@ -19,6 +19,7 @@ public class IndexBenchMarkTest {
 
     PrimaryHashIndex<String> hashIndex;
     PrimaryTreeIndex<String> treeIndex;
+    TrieIndex trieIndex;
     ExecutorService pool;
 
     @Rule
@@ -38,6 +39,13 @@ public class IndexBenchMarkTest {
         for(Integer i = 0; i < 1000001 ; i++) {
             treeIndex.load(i.toString(), i.toString());
         }
+        
+        trieIndex = new TrieIndex();
+        for(Integer i = 0; i < 1000001 ; i++) {
+            treeIndex.load(i.toString(), i.toString());
+        }
+        
+        
     }
 
     @Test
@@ -63,11 +71,23 @@ public class IndexBenchMarkTest {
         System.out.println("Time taken in ms:: " +  between.toMillis());
     }
     
-      @Test
+    @Test
     public void performanceTestBestSync() {
         Instant start = Instant.now();
         for(Integer i=0; i< 50001 ; i++) {
             treeIndex.syncBestMatch(i.toString());
+        }
+        
+        Duration between = Duration.between(start, Instant.now());
+        System.out.println("Time taken in ms:: " +  between.toMillis());
+    }
+    
+    
+    @Test
+    public void performanceTestBestSyncUsingTrie() {
+        Instant start = Instant.now();
+        for(Integer i=0; i< 50001 ; i++) {
+            trieIndex.bestSearch(i.toString());
         }
         
         Duration between = Duration.between(start, Instant.now());
