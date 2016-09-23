@@ -19,13 +19,6 @@ public class TrieIndexTest {
     }
 
     @Test
-    public void GetAValueFromIndexThatExists() {
-        String s = "60175559138";
-        index.insert(s);
-        assertThat(index.search(s), is(true));
-    }  
-    
-    @Test
     public void BestMatchSearch() {
         
         index.insert("0060175559138");

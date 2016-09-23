@@ -6,7 +6,7 @@ import java.util.Map;
 class TrieNode {
     char c;
     String word;
-    HashMap<Character, TrieNode>  children = new HashMap<>();
+    HashMap<Character, TrieNode>  children = new HashMap<>(10);
     boolean isLeaf;
     
     public TrieNode() {
@@ -50,16 +50,6 @@ public class TrieIndex {
          }
     }
     
-    public boolean search(String word) {
-        TrieNode t = searchNode(word);
- 
-        if(t != null && t.isLeaf) 
-            return true;
-        else
-            return false;
-        
-    }
-    
     public String bestSearch(String word) {
         
         Map<Character, TrieNode> children = root.children;
@@ -83,24 +73,4 @@ public class TrieIndex {
         return null;
         
     }
-    
-    public TrieNode searchNode(String word) {
-        
-        Map<Character, TrieNode> children = root.children;
-        TrieNode t = null;
-        for (int i =0 ; i < word.length(); i++) {
-            char c = word.charAt(i);
-            if(children.containsKey(c)) {
-                t = children.get(c);
-                children = t.children;
-            } else {
-                return null;
-            }
-            
-          
-            
-        }
-        return t;  
-    }
-    
 }
