@@ -28,5 +28,12 @@ The two lookups are independent and only when both results arrive , we do a set 
 ```
     
 #Issues
-Benchmarking tests show that best match search is slow.
+Benchmarking tests show that best match search is slow. After refactoring the best match code to use TreeMap and floorEntry ( with help from StackOverFlow members),
+my benchmark test went from 6000ms to best search 500 records to 41 ms to best search 50000 records. the exact search which basically uses a Hashmap with get() is at 19ms. 
+
+I was able to get faster lookups using Tries.
+
+
+
+
 
