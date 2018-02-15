@@ -1,4 +1,4 @@
-#Motivation
+# Motivation
 While working on index_search, the book that provided theory on which I wrote my code,  talked about composite indexes.
 
 Let 's say we have the following table

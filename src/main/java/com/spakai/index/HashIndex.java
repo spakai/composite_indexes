@@ -9,7 +9,8 @@ public class HashIndex implements Index {
 
   @Override
   public Set<String> exactMatch(String key) {
-    throw new NoMatchException("No match found");
+    Set<String> response = index.get(key);
+    return response;
   }
 
   @Override
@@ -27,5 +28,13 @@ public class HashIndex implements Index {
         val.add(value);
     }
   }
+
+   @Override
+   public String toString() {
+        return "HashIndex{" +
+                "index=" + index +
+                '}';
+    }
+
 
 }
