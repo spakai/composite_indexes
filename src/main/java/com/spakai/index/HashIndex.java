@@ -9,8 +9,12 @@ public class HashIndex implements Index {
 
   @Override
   public Set<String> exactMatch(String key) {
-    Set<String> response = index.get(key);
-    return response;
+    Set<String> retrievedSet = index.get(Objects.requireNonNull(key));
+    if(retrievedSet == null) {
+        throw new NoMatchException("No match found");
+    }
+
+    return retrievedSet;
   }
 
   @Override
