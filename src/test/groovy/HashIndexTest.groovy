@@ -37,11 +37,19 @@ class HashIndexSpecification extends Specification {
             def Index hashIndex = new HashIndex();
             hashIndex.insert("60175559138","LocalX")
             hashIndex.insert("60175559138","LocalY")
-            print(hashIndex.toString());
+            def expectedSet = ["LocalX","LocalY"] as Set
         when:
-            def Set<String> response = hashIndex.exactMatch("60175559138")
+            def Set response = hashIndex.exactMatch("60175559138")
         then:
-            response  == ["LocalX", "LocalY"]
+            response == expectedSet
     }
 
+    def "Insert null" () {
+        setup:
+            def Index hashIndex = new HashIndex();
+        when:
+            hashIndex.insert(null,null);
+        then:
+            thrown NullPointerException
+    }
 }
