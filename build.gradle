@@ -23,6 +23,8 @@ dependencies {
             'org.codehaus.groovy:groovy-all:2.4.4',
             'org.spockframework:spock-core:1.0-groovy-2.4'
     )
+
+    compile 'com.google.guava:guava:24.0-jre'
 }
 
 jacocoTestReport {

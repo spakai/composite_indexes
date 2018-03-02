@@ -9,12 +9,14 @@ public class HashIndex implements Index {
 
   @Override
   public Set<String> exactMatch(String key) {
-    Set<String> retrievedSet = index.get(Objects.requireNonNull(key));
-    if(retrievedSet == null) {
-        throw new NoMatchException("No match found");
+    Objects.requireNonNull(key);
+
+    Set<String> retrieved = index.get(key);
+    if(retrieved == null) {
+        throw new NoMatchException("No match found for" + key);
     }
 
-    return retrievedSet;
+    return retrieved;
   }
 
   @Override
@@ -24,7 +26,10 @@ public class HashIndex implements Index {
 
   @Override
   public void insert(String key, String value) {
-    Set<String> retrievedSet = index.get(Objects.requireNonNull(key));
+    Objects.requireNonNull(key);
+    Objects.requireNonNull(value);
+
+    Set<String> retrievedSet = index.get(key);
     if(retrievedSet == null) {
         add(key,value);
     } else {
@@ -32,16 +37,15 @@ public class HashIndex implements Index {
     }
   }
 
-  private Set<String> add(String key, String value) {
+  private void add(String key, String value) {
       Set<String> newSet = new HashSet<>();
       newSet.add(value);
       index.put(key, newSet);
-      return newSet;
   }
 
-  private void update(Set<String> retrievedSet, String key,String value) {
-      retrievedSet.add(value);
-      index.put(key, retrievedSet);
+  private void update(Set<String> retrieved, String key,String value) {
+      retrieved.add(value);
+      index.put(key, retrieved);
   }
    @Override
    public String toString() {
