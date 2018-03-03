@@ -16,7 +16,7 @@ public class CsvParser<T> implements Iterable<T> {
 
     public void load(String filePath) throws IOException {
         list = Files.lines( Paths.get(filePath))
-                .map(line -> mapToRecord(line))
+                .map(this::mapToRecord)
                 .collect(toList());
     }
 
