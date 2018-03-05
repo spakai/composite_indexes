@@ -1,7 +1,8 @@
 package com.spakai.index;
 
-import java.util.*;
 import com.spakai.exception.NoMatchException;
+
+import java.util.*;
 
 public class HashIndex implements Index {
 

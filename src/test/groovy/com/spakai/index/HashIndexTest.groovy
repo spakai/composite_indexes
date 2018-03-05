@@ -1,8 +1,6 @@
 package com.spakai.index
 
 import com.spakai.exception.NoMatchException
-import com.spakai.index.HashIndex
-import com.spakai.index.Index
 import spock.lang.Specification
 
 class HashIndexSpecification extends Specification {
