@@ -1,4 +1,5 @@
 package com.spakai.parser.csv;
+import com.spakai.exception.RecordMappingException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
@@ -34,7 +35,7 @@ public class CsvParser<T> implements Iterable<T> {
         } catch (InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException
                 | NoSuchMethodException | SecurityException e) {
-            return null;
+            throw new RecordMappingException("mapping csv to record failed",e);
         }
     }
 
