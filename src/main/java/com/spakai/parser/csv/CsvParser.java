@@ -18,7 +18,7 @@ public class CsvParser<T> implements Iterable<T> {
 
     public void load(String filePath) throws IOException {
         try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
-        			list = stream.map(this::mapToRecord).collect(toList());
+        	list = stream.map(this::mapToRecord).collect(toList());
    		} catch (IOException e) {
    			e.printStackTrace();
    		}
