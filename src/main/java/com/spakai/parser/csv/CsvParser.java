@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -15,9 +16,11 @@ public class CsvParser<T> implements Iterable<T> {
     private List<T> list;
 
     public void load(String filePath) throws IOException {
-        list = Files.lines( Paths.get(filePath))
-                .map(this::mapToRecord)
-                .collect(toList());
+        try (Stream<String> stream = Files.lines(Paths.get(filePath))) {
+        			list = stream.map(this::mapToRecord).collect(toList());
+   		} catch (IOException e) {
+   			e.printStackTrace();
+   		}
     }
 
     public CsvParser(Class<T> clazz)  {
