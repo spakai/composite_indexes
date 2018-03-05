@@ -29,8 +29,8 @@ public class CsvParser<T> implements Iterable<T> {
     }
 
     public T mapToRecord(String line)  {
-        String[] p = line.split(",");
         try {
+            String[] p = line.split(",");
             return clazz.getDeclaredConstructor(String[].class).newInstance(new Object[] { p });
         } catch (InstantiationException | IllegalAccessException
                 | IllegalArgumentException | InvocationTargetException
