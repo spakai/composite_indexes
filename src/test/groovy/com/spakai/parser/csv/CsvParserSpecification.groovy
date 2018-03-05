@@ -19,7 +19,7 @@ class CsvParserSpecification extends Specification {
 
     def "File not found" () {
         setup:
-            CsvParser<TestRecord> parser = new CsvParser<>()
+            Parser<TestRecord> parser = new Parser<>()
         when:
             parser.load("dummy.csv")
         then:
