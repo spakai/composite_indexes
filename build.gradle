@@ -25,6 +25,8 @@ dependencies {
     )
 
     compile 'com.google.guava:guava:24.0-jre'
+    compile 'com.univocity:univocity-parsers:2.6.1'
+
 }
 
 jacocoTestReport {
